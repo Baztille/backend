@@ -1,0 +1,14 @@
+# Ignore build and dependency artifacts
+node_modules
+coverage
+dist
+log
+logs
+*.log
+# Large data dumps / mongo storage
+data
+# OS / editor files
+.DS_Store
+.vscode/*.tmp
+# Keep migrations formatted (we do NOT ignore migrations)
+# Keep scripts formatted

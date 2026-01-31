@@ -1,0 +1,25 @@
+
+
+** circo_composition.xlsx (then convert to CSV with ; separator)
+
+https://www.data.gouv.fr/fr/datasets/portraits-des-circonscriptions-legislatives-indicateurs-economiques-et-socio-demographiques/
+
+
+** departements-et-collectivites-doutre-mer-france@toursmetropole.csv
+
+https://data.opendatasoft.com/explore/dataset/departements-et-collectivites-doutre-mer-france%40toursmetropole/export/?disjunctive.reg_name&disjunctive.dep_name
+
+
+** regions-et-collectivites-doutre-mer-france@toursmetropole.csv
+
+https://data.opendatasoft.com/explore/dataset/regions-et-collectivites-doutre-mer-france%40toursmetropole/table/?flg=fr-fr&disjunctive.reg_name&sort=year
+
+
+** bureaux-de-vote-circonscriptions.csv
+
+https://www.data.gouv.fr/fr/datasets/liste-des-bureaux-de-vote-associes-a-leur-circonscription-legislative/
+
+
+** table-bv-reu.csv
+
+https://www.data.gouv.fr/fr/datasets/bureaux-de-vote-et-adresses-de-leurs-electeurs/

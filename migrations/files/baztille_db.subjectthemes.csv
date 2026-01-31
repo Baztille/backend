@@ -1,0 +1,9 @@
+_id,isDeleted,isArchived,title,createdAt,updatedAt,__v,icon
+65ef33b2b4b864cb3838fa2a,false,false,Agriculture,Mon Mar 11 2024 19:39:14 GMT+0300 (heure normale d’Afrique de l’Est),Mon Mar 11 2024 19:39:14 GMT+0300 (heure normale d’Afrique de l’Est),0,"HealthiconsAgricultureOutline "
+65ef33c9b4b864cb3838fa2c,false,false,Climat,Mon Mar 11 2024 19:39:37 GMT+0300 (heure normale d’Afrique de l’Est),Mon Mar 11 2024 19:39:37 GMT+0300 (heure normale d’Afrique de l’Est),0,"FluentWeatherHailDay48Regular "
+65ef33dfb4b864cb3838fa2e,false,false,Culture,Mon Mar 11 2024 19:39:59 GMT+0300 (heure normale d’Afrique de l’Est),Mon Mar 11 2024 19:39:59 GMT+0300 (heure normale d’Afrique de l’Est),0,"PepiconsPencilPaintPallet "
+65ef33e3b4b864cb3838fa30,false,false,Éducation,Mon Mar 11 2024 19:40:03 GMT+0300 (heure normale d’Afrique de l’Est),Mon Mar 11 2024 19:40:03 GMT+0300 (heure normale d’Afrique de l’Est),0,"Icons8Student "
+65ef33f9b4b864cb3838fa34,false,false,Égalité homme & femme,Mon Mar 11 2024 19:40:25 GMT+0300 (heure normale d’Afrique de l’Est),Mon Mar 11 2024 19:40:25 GMT+0300 (heure normale d’Afrique de l’Est),0,"StreamlineGenderEquality "
+65ef340ab4b864cb3838fa36,false,false,Emploi,Mon Mar 11 2024 19:40:42 GMT+0300 (heure normale d’Afrique de l’Est),Mon Mar 11 2024 19:40:42 GMT+0300 (heure normale d’Afrique de l’Est),0,"SolarCaseMinimalisticLinear "
+65ef3419b4b864cb3838fa38,false,false,International,Mon Mar 11 2024 19:40:57 GMT+0300 (heure normale d’Afrique de l’Est),Mon Mar 11 2024 19:40:57 GMT+0300 (heure normale d’Afrique de l’Est),0,"HealthiconsWorldCareOutline "
+65ef3421b4b864cb3838fa3a,false,false,Sécurité,Mon Mar 11 2024 19:41:05 GMT+0300 (heure normale d’Afrique de l’Est),Mon Mar 11 2024 19:41:05 GMT+0300 (heure normale d’Afrique de l’Est),0,"MdiSecurityLockOutline "

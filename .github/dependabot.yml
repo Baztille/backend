@@ -1,0 +1,19 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/" # Path to `package.json` and `lock` files
+    schedule:
+      interval: "daily" # weekdays
+    open-pull-requests-limit: 0
+
+  - package-ecosystem: "docker"
+    directory: "/" # Path to Dockerfile
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 0
+
+  - package-ecosystem: "github-actions"
+    directory: "./github/workflows"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 0

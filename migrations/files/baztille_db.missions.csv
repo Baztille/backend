@@ -1,0 +1,4 @@
+_id,isDeleted,isArchived,createdAt,updatedAt,title,description,rewards,target,type,__v
+660d45a3816e00df74d8688a,false,false,Wed Apr 03 2024 15:03:47 GMT+0300 (heure normale d’Afrique de l’Est),Wed Apr 03 2024 15:03:47 GMT+0300 (heure normale d’Afrique de l’Est),Recruter 5 amis,J'ai recruté 5 amis,25,5,RECRUITMENT,0
+660d46f8905cadad253a598c,false,false,Wed Apr 03 2024 15:09:28 GMT+0300 (heure normale d’Afrique de l’Est),Wed Apr 03 2024 15:09:28 GMT+0300 (heure normale d’Afrique de l’Est),Participer à 5 votes,J'ai participé à 5 votes,25,5,,0
+660d472f905cadad253a598e,false,false,Wed Apr 03 2024 15:10:23 GMT+0300 (heure normale d’Afrique de l’Est),Wed Apr 03 2024 15:10:23 GMT+0300 (heure normale d’Afrique de l’Est),Proposer 1 sujet,J'ai proposé 1 sujet,25,1,,0

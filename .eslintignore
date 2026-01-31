@@ -1,0 +1,7 @@
+/dist
+/data
+/coverage
+/node_modules
+.eslintrc.js
+.env
+.env.*

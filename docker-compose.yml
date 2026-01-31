@@ -1,0 +1,56 @@
+version: '3.7'
+
+services:
+  app:
+    container_name: ${PROJECT_NAME}-backend-${ENVIRONMENT}
+#    platform: linux/arm64/v8   # Note: may be needed on iOS environment BUT cause slow performances elsewhere due to emulation.
+    ports:
+      - '${API_PORT}:4000'
+    environment:
+      - INFISICAL_CLIENT_ID=$INFISICAL_CLIENT_ID
+      - INFISICAL_SECRET=$INFISICAL_SECRET
+      - INFISICAL_PROJECT_ID=$INFISICAL_PROJECT_ID
+      - BACKEND_VERSION=local_dev
+    build:
+      context: .
+      target: dev
+      dockerfile: Dockerfile
+      args:
+        ENVIRONMENT: ${ENVIRONMENT}
+        PROJECT_NAME: ${PROJECT_NAME}
+    volumes:
+      - ./src:/app/src
+      - ./migrations:/app/migrations
+      - ./log:/var/log/baztille
+    restart: unless-stopped
+    depends_on:
+      - mongodb
+    env_file:
+      - .env
+    networks:
+      - baztillenet
+
+  mongodb:
+    image: mongo:5.0.0
+    container_name: server-mongodb-${ENVIRONMENT}
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    ports:
+      - ${DB_PORT}:27017
+    volumes:
+      - './data:/data/db'
+      - ./init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh
+    command: --quiet --logpath /var/log/mongodb/mongo.log
+    restart: unless-stopped
+    env_file:
+      - .env
+    networks:
+      - baztillenet
+
+volumes:
+  data:
+
+networks:
+  baztillenet:
+    external: false

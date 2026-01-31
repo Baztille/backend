@@ -1,0 +1,17 @@
+{
+	"excludeRegExp": [
+		"enum/.*",
+		"schema/.*",
+		"common/.*",
+		".*schema.ts",
+		".*schema.js",
+		".*dto.ts",
+		".*dto.js",
+		".*controller.ts",
+		".*controller.js",
+		".*service.ts",
+		".*service.js",
+		"app.module.ts",
+		"app.module.js"
+	]
+}

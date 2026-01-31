@@ -1,0 +1,66 @@
+name: deploy-prod
+
+on:
+  release:
+    types: [created]
+
+  # Allows to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build_push_to_registry:
+    name: Build & Push to Gitlab Registry
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: check out the repo
+        uses: actions/checkout@v2
+
+      - name: Check for DONOTCOMMIT markers
+        run: |
+          if grep -r "DONOTCOMMIT" --include="*.ts" --include="*.js" --include="*.json" --include="*.yml" --include="*.yaml" --exclude-dir=".github" .; then
+            echo "❌ ERROR: Found DONOTCOMMIT marker(s) in code!"
+            echo "These are temporary debug markers that should not be deployed to production."
+            echo ""
+            echo "Files containing DONOTCOMMIT:"
+            grep -r "DONOTCOMMIT" --include="*.ts" --include="*.js" --include="*.json" --include="*.yml" --include="*.yaml" --exclude-dir=".github" . || true
+            exit 1
+          else
+            echo "✅ No DONOTCOMMIT markers found - safe to deploy"
+          fi
+
+      - name: set up Docker builder
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to GitLab registry
+        uses: docker/login-action@v3
+        with:
+          registry: registry.gitlab.com
+          username: ${{ secrets.GITLAB_USERNAME }}
+          password: ${{ secrets.GITLAB_PASSWORD }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: Dockerfile
+          target: prod
+          build-args: |
+            ENVIRONMENT=prod
+            BACKEND_VERSION=${{ github.ref_name }}
+          push: true
+          tags: |
+            registry.gitlab.com/sourisdudesert/baztille:${{ github.ref_name }}
+            registry.gitlab.com/sourisdudesert/baztille:latest
+
+  deploy:
+    name: Deploy to Jelastic
+    runs-on: [ubuntu-latest]
+    needs: build_push_to_registry
+    steps:
+      - name: Deploy new container version
+        uses: Baztille/github-actions-jelastic@master
+        with:
+          jelastic_url: ${{ secrets.JELASTIC_API_URL }}
+          jelastic_username: ${{ secrets.JELASTIC_USERNAME }}
+          jelastic_password: ${{ secrets.JELASTIC_ACCESS_TOKEN }}
+          task: environment/control/redeploycontainersbygroup --envName ${{ secrets.JELASTIC_ENV_ID }} --nodeGroup cp --tag ${{ github.ref_name }} --useExistingVolumes true

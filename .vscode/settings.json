@@ -1,0 +1,50 @@
+{
+  // Existing custom dictionary words
+  "cSpell.words": ["Baztille"],
+  // Use LF line endings consistently
+  "files.eol": "\n",
+
+  // Prettier as the default formatter
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  // Format on save for all supported languages
+  "editor.formatOnSave": true,
+  // TypeScript specific (optional explicit override)
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // Also format JSON & Markdown consistently
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  // Run ESLint auto-fixes on save after Prettier formats
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  // Increase timeout if files are large
+  "editor.formatOnSaveTimeout": 2000,
+
+  // Disable VS Code's built-in TypeScript/JavaScript formatting to avoid conflicts
+  "typescript.format.enable": false,
+  "javascript.format.enable": false,
+
+  // Ensure Prettier respects existing config
+  "prettier.configPath": "./.prettierrc",
+  // Do not try to guess parser when not needed
+  "prettier.requireConfig": true,
+
+  // Show ESLint status in status bar (requires dbaeumer.vscode-eslint extension)
+  "eslint.alwaysShowStatus": true,
+  // Limit ESLint validation to TS sources to speed up
+  "eslint.validate": ["typescript"],
+
+  // Optional: reduce noisy unused imports suggestions (keep if you like them)
+  "typescript.preferences.includePackageJsonAutoImports": "off"
+}

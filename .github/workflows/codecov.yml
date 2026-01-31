@@ -1,0 +1,58 @@
+  name: coverage
+
+  on:
+    push:
+      branches:
+        - main
+        - dev
+        - preprod
+
+
+  jobs:
+      runs-tests:
+        strategy:
+          matrix:
+            docker:
+              - '20.10'
+          fail-fast: true
+        runs-on: [ self-hosted ]
+
+        steps:
+
+        - name: Clean up coverage.xml in case previous pipeline failed before finishing
+          run: |
+            sudo rm -rf coverage/
+
+        - name: Check out to the code
+          uses: actions/checkout@v3
+
+        - name: Set up node
+          uses: actions/setup-node@v3
+          with:
+            node-version: 20.11
+
+        - name: Run npm install
+          run: |
+            npm install
+            
+        - name: Run feature and unit tests and generate coverage.xml
+          run: |
+            npx jest --ci --coverage --coverageDirectory=../coverage || true
+            
+        - name: Upload coverage.xml as artifact
+          uses: actions/upload-artifact@v2
+          with:
+            name: coverage-xml
+            path: $GITHUB_WORKSPACE/coverage/clover.xml
+
+        - name: Upload to Codecov
+          uses: codecov/codecov-action@v2
+          with:
+            files: ${{github.workspace}}/coverage/clover.xml
+          env:
+            CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+        - name: Clean up coverage.xml
+          run: |
+            sudo rm -rf coverage/
+      

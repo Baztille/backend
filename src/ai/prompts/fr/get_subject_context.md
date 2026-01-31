@@ -1,0 +1,2 @@
+Sur le sujet "{{current_subject}}", dans le contexte d'actions pouvant être entreprises par les élus du territoire "{{territory_name}}" ({{territory_type}}) :
+Ecris un texte d'introduction de 500 caractères maximum (espaces compris) qui explique le sujet à un citoyen français de manière simple. Le texte doit notamment expliquer les mots difficiles, expliquer les principaux enjeux autour du sujet pour le territoire concerné, mais ne doit pas faire de propositions.
