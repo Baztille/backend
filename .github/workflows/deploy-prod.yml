@@ -49,8 +49,8 @@ jobs:
             BACKEND_VERSION=${{ github.ref_name }}
           push: true
           tags: |
-            registry.gitlab.com/sourisdudesert/baztille:${{ github.ref_name }}
-            registry.gitlab.com/sourisdudesert/baztille:latest
+            ${{ vars.DOCKER_REGISTRY_IMAGE }}:${{ github.ref_name }}
+            ${{ vars.DOCKER_REGISTRY_IMAGE }}:latest
 
   deploy:
     name: Deploy to Jelastic
@@ -60,7 +60,7 @@ jobs:
       - name: Deploy new container version
         uses: Baztille/github-actions-jelastic@master
         with:
-          jelastic_url: ${{ secrets.JELASTIC_API_URL }}
+          jelastic_url: ${{ vars.JELASTIC_API_URL }}
           jelastic_username: ${{ secrets.JELASTIC_USERNAME }}
           jelastic_password: ${{ secrets.JELASTIC_ACCESS_TOKEN }}
-          task: environment/control/redeploycontainersbygroup --envName ${{ secrets.JELASTIC_ENV_ID }} --nodeGroup cp --tag ${{ github.ref_name }} --useExistingVolumes true
+          task: environment/control/redeploycontainersbygroup --envName ${{ vars.JELASTIC_ENV_ID }} --nodeGroup cp --tag ${{ github.ref_name }} --useExistingVolumes true
