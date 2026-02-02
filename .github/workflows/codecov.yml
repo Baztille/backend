@@ -1,7 +1,8 @@
-  name: coverage
+name: coverage
 # Workflow disabled from auto-triggering - only runs manually
 on:
   workflow_dispatch:
+
 jobs:
   runs-tests:
     strategy:
