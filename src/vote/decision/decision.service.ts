@@ -136,6 +136,11 @@ export class DecisionService {
           territoryIds.push(new mongoose.Types.ObjectId(territory._id));
         }
       });
+
+      // If no votable territory found for user, we still add country level decisions
+      if (territoryIds.length === 0) {
+        territoryIds.push(new mongoose.Types.ObjectId(COUNTRY_TERRITORY_ID));
+      }
     } else {
       // No current user => only country level decisions
       territoryIds.push(new mongoose.Types.ObjectId(COUNTRY_TERRITORY_ID));

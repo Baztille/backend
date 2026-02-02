@@ -52,7 +52,7 @@ export class ChatController {
   })
   @ApiBearerAuth("JWT-auth")
   @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN, Role.MEMBER, Role.USER)
+  @Roles(Role.USER_INCOMPLETE, Role.ADMIN, Role.MEMBER, Role.USER)
   async logCurrentUser(@Body() params, @Req() req: ApiRequest): Promise<LogCurrentUserDto> {
     return await this.chatService.logCurrentUser(req?.user);
   }

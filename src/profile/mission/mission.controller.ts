@@ -44,7 +44,7 @@ export class MissionController {
   @ApiOkResponse({ type: CollectiveMissionDto })
   @ApiBearerAuth("JWT-auth")
   @UseGuards(RolesGuard)
-  @Roles(Role.USER, Role.MEMBER, Role.ADMIN, Role.MODERATOR)
+  @Roles(Role.USER_INCOMPLETE, Role.USER, Role.MEMBER, Role.ADMIN, Role.MODERATOR)
   async getCollectiveMission(): Promise<CollectiveMissionDto> {
     try {
       return await this.missionService.getCollectiveMission();
@@ -62,7 +62,7 @@ export class MissionController {
   @ApiOkResponse({ type: MyMissionsListDto })
   @ApiBearerAuth("JWT-auth")
   @UseGuards(RolesGuard)
-  @Roles(Role.USER, Role.MEMBER, Role.ADMIN, Role.MODERATOR)
+  @Roles(Role.USER_INCOMPLETE, Role.USER, Role.MEMBER, Role.ADMIN, Role.MODERATOR)
   async getMyMissions(@Req() req: ApiRequest): Promise<MyMissionsListDto> {
     try {
       return await this.missionService.getMyMissions(req?.user);

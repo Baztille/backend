@@ -29,7 +29,10 @@ import { UserService } from "./user.service";
 @ApiTags("User")
 @Controller("user")
 export class UserController {
-  constructor(private readonly userService: UserService, private fileUploadService: FileUploadService) {}
+  constructor(
+    private readonly userService: UserService,
+    private fileUploadService: FileUploadService
+  ) {}
 
   /**
    * Create a new user.
@@ -93,7 +96,7 @@ export class UserController {
   @ApiParam({ name: "email", required: true, description: "Email of the user to retrieve" })
   @ApiBearerAuth("JWT-auth")
   @UseGuards(RolesGuard)
-  @Roles(Role.USER, Role.MEMBER, Role.ADMIN, Role.MODERATOR)
+  @Roles(Role.USER_INCOMPLETE, Role.USER, Role.MEMBER, Role.ADMIN, Role.MODERATOR)
   @ApiOkResponse({ type: UserPrivateViewDto })
   async getUserByEmail(@Param("email") email: string, @Req() req: ApiRequest) {
     try {
