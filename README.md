@@ -35,8 +35,8 @@ Built with **NestJS** and **TypeScript**, Baztille follows a modular architectur
 
 - **Multi-stage voting** with configurable timelines
 - **Territory-based decisions** affecting specific geographic areas
-- **Auditable voting data** with cryptographic verification
-- **Vote modification** support (when enabled)
+- **Auditable voting data** designed for transparency and external review
+- **Vote modification** support
 
 ### User Management
 
@@ -241,7 +241,9 @@ Translation files located in `i18n/` directory.
 
 ## 📄 License
 
-[Your License Here]
+This project is licensed under the **GNU Affero General Public License v3.0 (AGPLv3)**.
+
+See the [LICENSE](./LICENSE) file for details.
 
 ## 🐛 Bug Reports
 

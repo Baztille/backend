@@ -37,14 +37,14 @@ Thank you for your interest in contributing to Baztille! This document provides 
 2. Clone your fork locally:
 
    ```bash
-   git clone https://github.com/YOUR_USERNAME/baztille-backend.git
-   cd baztille-backend
+   git clone https://github.com/Baztille/backend.git
+   cd baztille
    ```
 
 3. Add the upstream remote:
 
    ```bash
-   git remote add upstream https://github.com/baztille/baztille-backend.git
+   git remote add upstream https://github.com/Baztille/backend.git
    ```
 
 4. Install dependencies:
