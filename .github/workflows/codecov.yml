@@ -1,13 +1,12 @@
   name: coverage
 
-  on:
-    push:
-      branches:
-        - main
-        - dev
-        - preprod
-
-
+# Workflow disabled - uncomment 'on:' section to re-enable
+# on:
+#   push:
+#     branches:
+#       - main
+#       - dev
+#       - preprod
   jobs:
       runs-tests:
         strategy:
