@@ -2,14 +2,14 @@
 # Workflow disabled from auto-triggering - only runs manually
 on:
   workflow_dispatch:
-  jobs:
-      runs-tests:
-        strategy:
-          matrix:
-            docker:
-              - '20.10'
-          fail-fast: true
-        runs-on: [ self-hosted ]
+jobs:
+  runs-tests:
+    strategy:
+      matrix:
+        docker:
+          - '20.10'
+      fail-fast: true
+    runs-on: [ self-hosted ]
 
         steps:
 
