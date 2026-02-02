@@ -1,11 +1,7 @@
 name: Sonar Manual
-# Workflow disabled - uncomment 'on:' section to re-enable
-# on:
-#   push:
-#     branches:
-#       - main
-#       - dev
-#       - preprod
+# Workflow disabled from auto-triggering - only runs manually
+on:
+  workflow_dispatch:
       
 jobs:
   sonarcloud:
