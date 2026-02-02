@@ -1,9 +1,9 @@
 export type BaztilleChatMessageMedata = {
-  do_not_notify?: boolean;
-  gotopage?: string; // DEPRECATED: use gotopage_url instead
-  gotopage_url?: string; // URL (Universal Link Baztille app url) to redirect user to the following page when pressing the link/button
-  gotopage_label?: string; // Label of the link/button to show in the chat
-  gotopage_args?: {
+  doNotNotify?: boolean;
+  gotopage?: string; // DEPRECATED: use gotopageUrl instead
+  gotopageUrl?: string; // URL (Universal Link Baztille app url) to redirect user to the following page when pressing the link/button
+  gotopageLabel?: string; // Label of the link/button to show in the chat
+  gotopageArgsargs?: {
     [key: string]: any;
   };
   alert_message?: string;

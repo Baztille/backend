@@ -562,8 +562,8 @@ export class MissionService {
               mission: mission // Note: mission argument translation is managed specifically on app side
             },
             trigger: "new_mission_completed", // This trigger the display of the "yellow dot" on the profile tab on app side
-            gotopage_url: "/profile/home",
-            gotopage_label: "MESSAGING.GOTOPAGE_LABEL_COLLECT_POINTS"
+            gotopageUrl: "/profile/home",
+            gotopageLabel: "MESSAGING.gotopageLabel_COLLECT_POINTS"
           });
         }
 

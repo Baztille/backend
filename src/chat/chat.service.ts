@@ -761,7 +761,7 @@ export class ChatService {
       };
 
       // By default, redirect user to corresponding room
-      notif.gotopage_url = "/messages/discussion/" + notification.room_id;
+      notif.gotopageUrl = "/messages/discussion/" + notification.room_id;
 
       let bTranslatableMessage = false;
 
@@ -774,21 +774,21 @@ export class ChatService {
           notification.sender == "@" + process.env.CHAT_SERVICE_ADMIN_USER + ":" + process.env.CHAT_SERVICE_SERVERNAME
         ) {
           // Authorized!
-          if (message.metadata.do_not_notify) {
+          if (message.metadata.doNotNotify) {
             // Admin do not want that this message generate a Firebase notification
             // => interrupt process here
             return;
           }
-          if (message.metadata.gotopage_url) {
-            notif.gotopage_url = message.metadata.gotopage_url;
+          if (message.metadata.gotopageUrl) {
+            notif.gotopageUrl = message.metadata.gotopageUrl;
           }
           if (message.metadata.gotopage) {
-            // DEPRECATED: use gotopage_url instead
+            // DEPRECATED: use gotopageUrl instead
             notif.gotopage = message.metadata.gotopage;
           }
-          if (message.metadata.gotopage_args) {
-            // DEPRECATED: use gotopage_url instead
-            notif.gotopage_args = message.metadata.gotopage_args;
+          if (message.metadata.gotopageArgsargs) {
+            // DEPRECATED: use gotopageUrl instead
+            notif.gotopageArgsargs = message.metadata.gotopageArgsargs;
           }
           if (message.metadata.alert_message) {
             notif.alert_message = message.metadata.alert_message;

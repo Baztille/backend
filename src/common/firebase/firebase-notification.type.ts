@@ -20,10 +20,10 @@ export class FirebaseNotification {
   /**
    * URL (Universal Link Baztille app url) to redirect user to the following page when opening this notification
    */
-  gotopage_url?: string;
+  gotopageUrl?: string;
 
   /**
-   * DEPRECATED: use gotopage_url instead
+   * DEPRECATED: use gotopageUrl instead
    * Redirect user to the following page when opening this notification
    */
   gotopage?: string;
@@ -31,7 +31,7 @@ export class FirebaseNotification {
   /**
    * Arguments for the component we are going to redirect user to (to be used with gotopage)
    */
-  gotopage_args?: any;
+  gotopageArgsargs?: any;
 
   /**
    * Display alert message screen on user

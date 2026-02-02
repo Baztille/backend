@@ -34,16 +34,16 @@ export class FirebaseService {
     if (message.data != undefined) {
       // undefined message.data should never happened (here for Typescript strict null checks)
 
-      if (notif.gotopage_url) {
-        message.data.gotopage_url = notif.gotopage_url;
+      if (notif.gotopageUrl) {
+        message.data.gotopageUrl = notif.gotopageUrl;
       }
 
       if (notif.gotopage) {
-        // DEPRECATED: use gotopage_url instead
+        // DEPRECATED: use gotopageUrl instead
         message.data.gotopage = notif.gotopage;
 
-        if (notif.gotopage_args) {
-          message.data.gotopage_args = JSON.stringify(notif.gotopage_args); // Note: Firebase only accept strings in notif data field
+        if (notif.gotopageArgsargs) {
+          message.data.gotopageArgsargs = JSON.stringify(notif.gotopageArgsargs); // Note: Firebase only accept strings in notif data field
         }
       }
 

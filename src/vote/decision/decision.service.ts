@@ -1429,12 +1429,12 @@ export class DecisionService {
         // TODO: make this translatable
         this.chatService.sendAdminAnnouncement( "Un nouveau sujet a été sélectionné pour dimanche prochain: `"+subjectOfTheWeek.text+"`: c'est le moment de faire des propositions.", {
           gotopage: 'vote',
-          gotopage_label: 'MESSAGING.GOTOPAGE_LABEL_SELECT_PROPOSITIONS',
-          gotopage_args: {
+          gotopageLabel: 'MESSAGING.gotopageLabel_SELECT_PROPOSITIONS',
+          gotopageArgsargs: {
             screen: 'vote-proposition', 
             params: { decisionId: currentDecision._id }
           },
-          do_not_notify: true // Publish in "announcement" but do not send notification about this
+          doNotNotify: true // Publish in "announcement" but do not send notification about this
         } );        
       }
       else
@@ -1658,8 +1658,8 @@ export class DecisionService {
       // TODO: make this translatable
       await this.chatService.sendAdminAnnouncement( "Décision prise sur le sujet `"+currentDecision.subject.text+"`: `"+globalWinningProposition.text+"`. Merci à tous les participants au vote !", {
         gotopage: 'vote',
-        gotopage_label: 'MESSAGING.GOTOPAGE_LABEL_SEE_DECISION',
-        gotopage_args: {
+        gotopageLabel: 'MESSAGING.gotopageLabel_SEE_DECISION',
+        gotopageArgsargs: {
           screen: 'vote-result',
           params: {
             decisionId: currentDecision._id,
@@ -1667,7 +1667,7 @@ export class DecisionService {
             not_after_vote: true
           }
         },
-        do_not_notify: true   // Publish in "announcements" but do not send notifications about this
+        doNotNotify: true   // Publish in "announcements" but do not send notifications about this
       } );        
 
       // TODO: compute and set "territoryToProposition" = map of where the decision should be applied, by territories
@@ -1817,9 +1817,9 @@ export class DecisionService {
         currentDecision.subject +
         "`: c'est le moment de faire des propositions.",
       {
-        gotopage_url: "/vote/proposition/" + currentDecision._id,
-        gotopage_label: "MESSAGING.GOTOPAGE_LABEL_SELECT_PROPOSITIONS",
-        do_not_notify: true // Publish in "announcement" but do not send notification about this
+        gotopageUrl: "/vote/proposition/" + currentDecision._id,
+        gotopageLabel: "MESSAGING.gotopageLabel_SELECT_PROPOSITIONS",
+        doNotNotify: true // Publish in "announcement" but do not send notification about this
       }
     );
   }
@@ -1861,8 +1861,8 @@ export class DecisionService {
       currentDecision.territory._id,
       "`" + currentDecision.subject + "`: c'est le moment de voter pour prendre une décision ensemble !",
       {
-        gotopage_url: "/vote/general/" + currentDecision._id,
-        gotopage_label: "MESSAGING.GOTOPAGE_LABEL_VOTE"
+        gotopageUrl: "/vote/general/" + currentDecision._id,
+        gotopageLabel: "MESSAGING.gotopageLabel_VOTE"
       }
     );
 
