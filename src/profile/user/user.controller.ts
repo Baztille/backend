@@ -29,10 +29,7 @@ import { UserService } from "./user.service";
 @ApiTags("User")
 @Controller("user")
 export class UserController {
-  constructor(
-    private readonly userService: UserService,
-    private fileUploadService: FileUploadService
-  ) {}
+  constructor(private readonly userService: UserService, private fileUploadService: FileUploadService) {}
 
   /**
    * Create a new user.
