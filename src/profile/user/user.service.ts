@@ -719,7 +719,7 @@ export class UserService {
    * @param userId user ID
    * @param city city name
    */
-  async setCity(userId: string, city: string) {
+  async setCity(userId: string, city: string): Promise<UserPrivateViewDto> {
     logInfo("Setting city for user " + userId + " to " + city);
 
     // Get user
@@ -753,7 +753,7 @@ export class UserService {
 
     // Update user polling station
     // Note: we use updateUser so that all the checks are done + cache territories for user are updated
-    await this.updateUser(user.email, {
+    return this.updateUser(user.email, {
       pollingStationId: subdivision.subdivisionId._id,
       pollingStationUncertain: true
     });

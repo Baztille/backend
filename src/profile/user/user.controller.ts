@@ -180,7 +180,11 @@ export class UserController {
   @UseGuards(RolesGuard)
   @Roles(Role.USER_INCOMPLETE, Role.USER, Role.MEMBER, Role.ADMIN, Role.MODERATOR)
   @ApiOkResponse({ type: UserPrivateViewDto })
-  async setCity(@Param("userId") userId: string, @Body() postData: { city: string }, @Req() req: ApiRequest) {
+  async setCity(
+    @Param("userId") userId: string,
+    @Body() postData: { city: string },
+    @Req() req: ApiRequest
+  ): Promise<UserPrivateViewDto> {
     try {
       const requestedUserId = userId;
       const requestingUser = req?.user;
