@@ -159,6 +159,41 @@ export class UserController {
   }
 
   /**
+   * Set user city
+   * Note: we are supposed to update user city using polling station ID, however,
+   *       using simplified registration at now, we just know the city and need this
+   *       enndpoint to set polling station based on city ID
+   */
+  @Post("setCity/:userId")
+  @ApiOperation({ operationId: "setCity", summary: "Set user city by user ID" })
+  @ApiParam({ name: "userId", required: true, description: "ID of the user to update city" })
+  @ApiBody({
+    schema: {
+      type: "object",
+      properties: {
+        city: { type: "string", description: "City name" }
+      },
+      required: ["city"]
+    }
+  })
+  @ApiBearerAuth("JWT-auth")
+  @UseGuards(RolesGuard)
+  @Roles(Role.USER_INCOMPLETE, Role.USER, Role.MEMBER, Role.ADMIN, Role.MODERATOR)
+  @ApiOkResponse({ type: UserPrivateViewDto })
+  async setCity(@Param("userId") userId: string, @Body() postData: { city: string }, @Req() req: ApiRequest) {
+    try {
+      const requestedUserId = userId;
+      const requestingUser = req?.user;
+      if (requestingUser?.role !== Role.ADMIN && requestedUserId !== requestingUser?._id?.toString()) {
+        throw new ForbiddenException("You do not have access to this resource");
+      }
+      return await this.userService.setCity(userId, postData?.city);
+    } catch (error) {
+      throw new InternalServerErrorException(error?.message);
+    }
+  }
+
+  /**
    * Update user device information
    * @summary Update user device informations
    * @param {string} email - The email of the user to update.

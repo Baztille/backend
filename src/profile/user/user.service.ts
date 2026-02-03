@@ -711,6 +711,55 @@ export class UserService {
   }
 
   /*
+   ** Update user city
+   * Note: we are supposed to update user city using polling station ID, however,
+   *       using simplified registration at now, we just know the city and need this
+   *       enndpoint to set polling station based on city ID
+   * This method pick the first polling station found in this city + set the pollingStationUncertain flag to true
+   * @param userId user ID
+   * @param city city name
+   */
+  async setCity(userId: string, city: string) {
+    logInfo("Setting city for user " + userId + " to " + city);
+
+    // Get user
+    const user = await this.getUserCompleteById(userId);
+
+    if (!user) {
+      throw new NotFoundException("User not found: " + userId);
+    }
+
+    // Find a polling station in this city
+    const cityTerritory = await this.countryModelService.getTerritory(city);
+
+    if (!cityTerritory) {
+      throw new NotFoundException("City not found: " + city);
+    }
+    if (!cityTerritory.subdivisions || cityTerritory.subdivisions.length == 0) {
+      throw new NotFoundException("No polling station found in city: " + city);
+    }
+
+    logDebug("City territory: ", cityTerritory);
+
+    // We take first subdivision of type "Polling Station"
+    const subdivision = cityTerritory.subdivisions[0];
+
+    logDebug("Selected subdivision: ", subdivision);
+
+    // Check subdivision type
+    if (subdivision.subdivisionId.type.name != "Polling Station") {
+      throw new NotFoundException("No polling station found in city: " + city);
+    }
+
+    // Update user polling station
+    // Note: we use updateUser so that all the checks are done + cache territories for user are updated
+    await this.updateUser(user.email, {
+      pollingStationId: subdivision.subdivisionId._id,
+      pollingStationUncertain: true
+    });
+  }
+
+  /*
    ** Update given user to role + trigger all what is needed following this role update
    ** Throw exception if user not found
    ** @param email user email

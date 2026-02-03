@@ -32,7 +32,7 @@ export class SettingsController {
   })
   @ApiBearerAuth("JWT-auth")
   @UseGuards(RolesGuard)
-  @Roles(Role.USER, Role.MEMBER, Role.ADMIN, Role.MODERATOR)
+  @Roles(Role.USER_INCOMPLETE, Role.USER, Role.MEMBER, Role.ADMIN, Role.MODERATOR)
   async getEmailsTypes(@Req() req: ApiRequest): Promise<EmailsPreferencesByCategoryDto[]> {
     try {
       return await this.settingsService.getEmailsTypes(req?.user);
@@ -65,7 +65,7 @@ export class SettingsController {
   @ApiConsumes("application/json")
   @ApiBearerAuth("JWT-auth")
   @UseGuards(RolesGuard)
-  @Roles(Role.USER, Role.MEMBER, Role.ADMIN, Role.MODERATOR)
+  @Roles(Role.USER_INCOMPLETE, Role.USER, Role.MEMBER, Role.ADMIN, Role.MODERATOR)
   async setEmailPreference(@Body() params, @Req() req: ApiRequest) {
     try {
       return await this.settingsService.setEmailPreference(req?.user, params.email_type, params.option);
