@@ -1289,12 +1289,17 @@ export class DecisionService {
           const decision = decisions[i];
           logInfo("Moving decision " + decision._id + " to featured status (general vote phase)");
 
-          await this.moveDecisionToGeneralVotePhase(decision._id.toString());
+          const bDecisionFeatured = await this.moveDecisionToGeneralVotePhase(decision._id.toString());
 
-          // Trigger whatever is needed after moving decision to featured
-          this.eventEmitter.emit(InternalEventsEnum.DECISION_NEW_FEATURED_DECISION, {
-            decisionId: decision._id.toString()
-          });
+          if (bDecisionFeatured) {
+            logInfo("Decision " + decision._id + " moved to featured status successfully");
+            // Trigger whatever is needed after moving decision to featured
+            this.eventEmitter.emit(InternalEventsEnum.DECISION_NEW_FEATURED_DECISION, {
+              decisionId: decision._id.toString()
+            });
+          } else {
+            logInfo("Decision " + decision._id + " could not be moved to featured status");
+          }
         }
       });
   }
