@@ -139,7 +139,8 @@ export class VotingSessionService {
         $push: {
           choices: choice
         },
-        ["choiceTiebreaker." + choice]: choiceTiebreaker
+        ["choiceTiebreaker." + choice]: choiceTiebreaker,
+        ["votesSum." + choice]: 0
       }
     );
   }
