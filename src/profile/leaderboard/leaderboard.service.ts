@@ -23,7 +23,7 @@ export class LeaderboardService {
   ) {}
 
   private mongoFilter(scope: LeaderboardScope | null) {
-    if (!scope || !scope.territory_type_id) return {}; // No filter (= whole country leaderboard)
+    if (!scope || !scope.territoryTypeId) return {}; // No filter (= whole country leaderboard)
 
     logDebug("Leaderboard: mongoFilter: to be developed for scope ", scope);
 
@@ -40,7 +40,7 @@ export class LeaderboardService {
    * @returns cache key
    */
   private getCacheKey(scope: LeaderboardScope, limit: number, after?: string) {
-    const base = scope === null ? "leaderboard:global" : `leaderboard:${scope.territory_type_id}:${scope.territory_id}`;
+    const base = scope === null ? "leaderboard:global" : `leaderboard:${scope.territoryTypeId}:${scope.territoryId}`;
     return after ? `${base}:after:${after}:limit:${limit}` : `${base}:page:0:limit:${limit}`;
   }
 

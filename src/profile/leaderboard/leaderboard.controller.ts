@@ -27,8 +27,8 @@ export class LeaderboardController {
   ): Promise<LeaderboardPageDto> {
     return this.service.getPage(
       {
-        territory_id: q.territory_id ? q.territory_id : undefined,
-        territory_type_id: q.territory_type_id ? q.territory_type_id : undefined
+        territoryId: q.territoryId ? q.territoryId : undefined,
+        territoryTypeId: q.territoryTypeId ? q.territoryTypeId : undefined
       },
       q.limit ?? 50,
       q.after

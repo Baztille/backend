@@ -1,12 +1,15 @@
+import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
-import { IsIn, IsInt, IsOptional, IsString, Max, Min } from "class-validator";
+import { IsInt, IsOptional, IsString, Max, Min } from "class-validator";
 
 export class GetLeaderboardDto {
-  territory_type_id: string | null; // Note: null = whole country
+  @ApiProperty({ nullable: true, required: false })
+  @IsOptional()
+  territoryTypeId: string | null; // Note: null = whole country
 
   @IsOptional()
   @IsString()
-  territory_id?: string;
+  territoryId?: string;
 
   @IsOptional()
   @Type(() => Number)
