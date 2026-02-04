@@ -41,7 +41,7 @@ export class SmsController {
   @ApiBearerAuth("JWT-auth")
   @UseGuards(RolesGuard)
   @ApiBody({ type: SMSDto })
-  @Roles(Role.USER, Role.MEMBER, Role.ADMIN, Role.MODERATOR)
+  @Roles(Role.USER, Role.MEMBER, Role.ADMIN, Role.MODERATOR) // Note: not opened to Role.USER_INCOMPLETE as you must finalize registration before proceed to SMS validation
   async sendVerificationCode(@Body() smsDto: SMSDto) {
     try {
       return await this.smsService.sendVerificationCode(smsDto);
@@ -79,7 +79,7 @@ export class SmsController {
   @ApiBearerAuth("JWT-auth")
   @ApiBody({ type: SMSVerifyDto })
   @UseGuards(RolesGuard)
-  @Roles(Role.USER, Role.MEMBER, Role.ADMIN, Role.MODERATOR)
+  @Roles(Role.USER, Role.MEMBER, Role.ADMIN, Role.MODERATOR) // Note: not opened to Role.USER_INCOMPLETE as you must finalize registration before proceed to SMS validation
   async verifyCode(@Body() smsDto: SMSVerifyDto, @Req() req: ApiRequest): Promise<{ message: string }> {
     const requestingUser = req?.user;
     const verified = await this.smsService.verifyCode(smsDto, requestingUser?._id?.toString());
