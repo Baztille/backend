@@ -93,6 +93,51 @@ export class DeviceTokenService {
   }
 
   /**
+   * Invalidate all tokens for a specific user
+   * @param userId User ID
+   * @param reason Reason for invalidation
+   */
+  async invalidateAllTokensForUser(userId: string, reason: string): Promise<void> {
+    logInfo(`Invalidating all tokens for user ${userId} with reason: ${reason}`);
+
+    const now = new Date();
+
+    // Get all tokens for this user to know which device IDs to clear
+    const tokens = await this.deviceTokenModel.find({ userId, invalidAt: null }, { deviceId: 1 });
+
+    // Update all tokens for this user as invalid
+    const result = await this.deviceTokenModel.updateMany(
+      { userId, invalidAt: null },
+      {
+        $set: {
+          invalidAt: now,
+          invalidReason: reason,
+          updatedAt: now
+        }
+      }
+    );
+
+    logInfo(`Invalidated ${result.modifiedCount} tokens for user ${userId}`);
+
+    // Clear only notifToken fields from user document (keep other device info)
+    if (tokens.length > 0) {
+      try {
+        const unsetFields: Record<string, string> = {};
+        for (const token of tokens) {
+          unsetFields[`devices.${token.deviceId}.notifToken`] = "";
+        }
+
+        await this.userModel.updateOne({ _id: userId }, { $unset: unsetFields });
+
+        logInfo(`Cleared ${tokens.length} notifToken fields from user ${userId} document (keeping other device info)`);
+      } catch (error) {
+        logError(`Failed to clear tokens from user document:`, error);
+        // Don't throw - invalidation succeeded, cleanup is optional
+      }
+    }
+  }
+
+  /**
    * Find a device token by token string
    * @param token FCM registration token
    * @returns Device token document or null if not found

@@ -1387,6 +1387,15 @@ export class UserService {
       deletedAt: getCurrentDate().getTime()
     });
 
+    // Invalidate all device tokens for this user
+    try {
+      await this.deviceTokenService.invalidateAllTokensForUser(userId, "account_removed");
+      logInfo(`Invalidated all device tokens for user ${userId}`);
+    } catch (error) {
+      logError(`Failed to invalidate device tokens for user ${userId}:`, error);
+      // Don't fail the account removal if token invalidation fails
+    }
+
     // Change public name to "Deleted user" on chat server
     await this.chatserviceService.updatePublicName(user._id, "Deleted user");
 
