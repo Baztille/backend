@@ -764,12 +764,18 @@ export class UserService {
 
     // Trigger any logic linked to role change
 
-    if (currentUser.role == Role.VISITOR && role == Role.USER) {
-      // User is going from VISITOR to USER
+    if (currentUser.role != Role.USER && role == Role.USER) {
+      // User is going from (any role) to USER
 
       // Add user to the list of recruits of the mentor user
       // + update number of recruits for the mentor user
-      logInfo("User " + email + " is going from VISITOR to USER, adding him to the recruits list of his mentor");
+      logInfo(
+        "User " +
+          email +
+          " is going from " +
+          currentUser.role +
+          " to USER, adding him to the recruits list of his mentor"
+      );
       this.addUserToRecruitsList(currentUser._id, currentUser.mentor);
     }
   }
@@ -1162,6 +1168,73 @@ export class UserService {
 
     // If we reach this point, the mentor invitation code is not valid
     return false;
+  }
+
+  /**
+   * Set the invitation code for a user after creation
+   * This method allows a user to add a mentor after account creation
+   * This is only allowed if the user is in USER_INCOMPLETE role (i.e., just created account)
+   * @param userId The ID of the user to set the invitation code for
+   * @param invitationCode The mentor invitation code
+   * @returns Updated user
+   * @throws Error if user already has a mentor or if invitation code is invalid
+   */
+  public async setInvitationCode(userId: string, invitationCode: string): Promise<UserPrivateViewDto> {
+    logInfo("Setting invitation code for user " + userId + ": " + invitationCode);
+
+    // Get the user
+    const user = await this.userModel.findById(userId);
+
+    if (!user) {
+      throw new NotFoundException("User not found: " + userId);
+    }
+
+    // Check that user doesn't already have a mentor
+    if (user.mentor) {
+      throw new BadRequestException("User already has a mentor. Changing mentor is not allowed.");
+    }
+
+    // Check that user is in USER_INCOMPLETE role
+    if (user.role !== Role.USER_INCOMPLETE) {
+      throw new BadRequestException("Invitation code can only be set for users in USER_INCOMPLETE role.");
+    }
+
+    // Validate the invitation code
+    if (!invitationCode || invitationCode.trim() === "") {
+      throw new BadRequestException("Invitation code cannot be empty");
+    }
+
+    // Check if the invitation code is valid
+    const mentorUser = await this.userModel.findOne({
+      mentorInvitationCode: invitationCode
+    });
+
+    // If no mentor user found
+    if (!mentorUser) {
+      logError("Mentor invitation code is not valid: " + invitationCode);
+      throw new BadRequestException("Mentor invitation code is not valid");
+    }
+
+    // Check if mentor account has been removed
+    if (mentorUser.removedAccountDate) {
+      logError("Mentor invitation code belongs to a user that removed its account: " + invitationCode);
+      throw new BadRequestException("Mentor invitation code belongs to a removed account");
+    }
+
+    // Check that mentor is not the same as the user
+    if (mentorUser._id.toString() === userId) {
+      throw new BadRequestException("You cannot use your own invitation code");
+    }
+
+    logInfo("Valid mentor found: " + mentorUser._id + " for user " + userId);
+
+    // Update user with mentor
+    await this.userModel.updateOne({ _id: userId }, { $set: { mentor: mentorUser._id } });
+
+    // Note: we do not update the recruits list of the mentor here,
+    //       this will be done when the user will be upgraded to USER role
+
+    return this.getUserPrivateById(user._id);
   }
 
   /************************** CRITICAL ACTIONS (CHANGE EMAIL, ACCOUNT REMOVAL, ....) MANAGEMENT  ************************************/

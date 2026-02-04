@@ -487,6 +487,60 @@ export class UserController {
     }
   }
 
+  /** Set invitation code for a user after account creation
+   *  @summary Set invitation code for a user
+   *  @param {string} userId - The ID of the user to set the invitation code for.
+   *  @param {string} invitationCode - The mentor invitation code.
+   *  @returns {UserPrivateViewDto} - Returns the updated user.
+   */
+  @Post("setInvitationCode/:userId")
+  @ApiOperation({
+    operationId: "setInvitationCode",
+    summary: "Set invitation code for a user after account creation"
+  })
+  @ApiParam({
+    name: "userId",
+    required: true,
+    description: "ID of the user to set invitation code for",
+    example: "11000000020103000000000000"
+  })
+  @ApiBody({
+    schema: {
+      type: "object",
+      properties: {
+        invitationCode: { type: "string", description: "Mentor invitation code", example: "ABCD1234" }
+      },
+      required: ["invitationCode"]
+    }
+  })
+  @ApiBearerAuth("JWT-auth")
+  @UseGuards(RolesGuard)
+  @Roles(Role.VISITOR, Role.USER_INCOMPLETE, Role.USER, Role.MEMBER, Role.ADMIN, Role.MODERATOR)
+  @ApiOkResponse({
+    type: UserPrivateViewDto,
+    description: "Returns the updated user with mentor assigned."
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: "User already has a mentor or invitation code is invalid."
+  })
+  async setInvitationCode(
+    @Param("userId") userId: string,
+    @Body() params: { invitationCode: string },
+    @Req() req: ApiRequest
+  ): Promise<UserPrivateViewDto> {
+    try {
+      const requestingUser = req?.user;
+      if (requestingUser?.role !== Role.ADMIN && userId !== requestingUser?._id?.toString()) {
+        throw new ForbiddenException("You do not have access to this resource");
+      }
+
+      return await this.userService.setInvitationCode(userId, params.invitationCode);
+    } catch (error) {
+      throw new InternalServerErrorException(error?.message);
+    }
+  }
+
   /** User ask for its account removal
    * @summary User ask for its account removal (this will send a confirmation code by email)
    * @param {string} userId - The ID of the user whose account is being removed.
