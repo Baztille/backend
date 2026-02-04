@@ -1089,15 +1089,23 @@ export class DecisionService {
   }
 
   /**
+   * Event handler for checking decision hotness
+   * Extracts decisionId from payload and delegates to checkDecisionHotness
+   */
+  @OnEvent(InternalEventsEnum.TERRITORY_FEATURED_DECITIONS_TRIGGER_UPDATE, { async: true })
+  async handleCheckDecisionHotness(payload?: { decisionId?: string }): Promise<void> {
+    return this.checkDecisionHotness(payload?.decisionId);
+  }
+
+  /**
    * Check if a decision has a hotness score greater than the hotness threshold defined for its territory
    * If a decision is over the threshold, update it to be featured in +4 days and reset territory treshold
    * @param decisionId (optional) if specified, check only this decision
    * @returns {boolean} true if hotness score is greater than threshold
    */
-  @OnEvent(InternalEventsEnum.TERRITORY_FEATURED_DECITIONS_TRIGGER_UPDATE, { async: true })
   async checkDecisionHotness(decisionId?: string): Promise<void> {
     // For all decisions, we must get the territory hotness threshold and compare it to the decision hotness score, using a mongo query aggregation pipeline
-    logInfo("Checking decision hotness" + (decisionId ? " for decision " + decisionId : "for all decisions"));
+    logInfo("Checking decision hotness" + (decisionId ? " for decision " + decisionId : " for all decisions"));
     const filter: mongoose.FilterQuery<DecisionDocument> = {
       featuredFrom: { $eq: null } // Only decisions not already featured
     };
