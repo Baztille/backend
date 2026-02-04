@@ -19,6 +19,7 @@ import { UserDiscoverStep } from "src/profile/user/types/user-discover-step.enum
 import { getCurrentDate } from "src/utils/date-time";
 import { logDebug, logError, logInfo } from "src/utils/logger";
 import { DeletedUserMongo } from "./deleted-user.schema";
+import { DeviceTokenService } from "./device-token.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { RecruitDto } from "./dto/recruit.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
@@ -48,7 +49,8 @@ export class UserService {
     private emailService: EmailService,
     private eventEmitter: EventEmitter2,
     private globalService: GlobalsService,
-    private eventService: EventService
+    private eventService: EventService,
+    private deviceTokenService: DeviceTokenService
   ) {
     // Public fields that can be accessed by anyone
     this.public_accessible_fields = {
@@ -840,6 +842,14 @@ export class UserService {
     await this.userModel.updateOne({ key: emailToKey(email) }, { $set: updateData });
 
     if (deviceInfos.notifToken) {
+      // Upsert the token into device_tokens collection for reverse index
+      try {
+        await this.deviceTokenService.upsertToken(deviceInfos.notifToken, user._id, deviceInfos.uuid);
+      } catch (error) {
+        logError(`Failed to upsert device token for user ${user._id}, device ${deviceInfos.uuid}:`, error);
+        // Don't fail the whole operation if token upsert fails
+      }
+
       // If user enabled notifications, it may leads to a mission accomplished so check for it
       this.eventEmitter.emit(InternalEventsEnum.USER_CHECK_MISSIONS_FOR_USER, { userId: user._id });
     }

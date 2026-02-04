@@ -6,9 +6,10 @@ import { FirebaseModule } from "src/common/firebase/firebase.module";
 import { ChatController } from "./chat.controller";
 import { ChatService } from "./chat.service";
 import { MatrixNotifierController } from "./matrix-notifier.controller";
+import { ChatNotificationModule } from "./notification/chat-notification.module";
 
 @Module({
-  imports: [HttpModule, MongooseModule.forFeature(forFeatureDb), FirebaseModule],
+  imports: [HttpModule, MongooseModule.forFeature(forFeatureDb), FirebaseModule, ChatNotificationModule],
   exports: [ChatService],
   controllers: [ChatController, MatrixNotifierController],
   providers: [ChatService]

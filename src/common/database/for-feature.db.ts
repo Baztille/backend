@@ -19,6 +19,7 @@ import { EventDeviceToUserMongo, EventDeviceToUserSchema } from "src/event/event
 import { EventMongo, EventSchema } from "src/event/event.schema";
 import { MissionMongo, MissionSchema } from "src/profile/mission/mission.schema";
 import { DeletedUserMongo, DeletedUserSchema } from "src/profile/user/deleted-user.schema";
+import { DeviceTokenMongo, DeviceTokenSchema } from "src/profile/user/device-token.schema";
 import { UserMongo, UserSchema } from "src/profile/user/user.schema";
 import { ReportMongo, ReportSchema } from "src/report/report.schema";
 import { MaintenanceMongo, MaintenanceSchema } from "src/status/schema/maintenance.schema";
@@ -43,6 +44,7 @@ export default [
   // User model
   { name: UserMongo.name, schema: UserSchema },
   { name: DeletedUserMongo.name, schema: DeletedUserSchema },
+  { name: DeviceTokenMongo.name, schema: DeviceTokenSchema },
 
   // Country model
   { name: CountryMongo.name, schema: CountrySchema },
