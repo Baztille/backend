@@ -37,7 +37,6 @@ import {
 
 @Injectable()
 export class UserService {
-  user_accessible_fields: { [key: string]: 1 };
   public_accessible_fields: { [key: string]: 1 };
 
   constructor(
@@ -51,26 +50,6 @@ export class UserService {
     private globalService: GlobalsService,
     private eventService: EventService
   ) {
-    // User fields that the corresponding user is allowed to view
-    this.user_accessible_fields = {
-      email: 1,
-      role: 1,
-      pollingStationId: 1,
-      pollingStationUncertain: 1,
-      publicName: 1,
-      points: 1,
-      birthDate: 1,
-      firstName: 1,
-      lastName: 1,
-      phoneNumber: 1,
-      missionsCompleted: 1,
-      mentorInvitationCode: 1,
-      socialNetworks: 1,
-      avatar: 1,
-      recruits: 1,
-      discoverStep: 1
-    };
-
     // Public fields that can be accessed by anyone
     this.public_accessible_fields = {
       role: 1,
@@ -415,6 +394,7 @@ export class UserService {
       firstName,
       lastName,
       phoneNumber,
+      mentor,
       mentorInvitationCode,
       socialNetworks,
       avatar,
@@ -434,6 +414,7 @@ export class UserService {
       firstName,
       lastName,
       phoneNumber,
+      mentor,
       mentorInvitationCode,
       socialNetworks,
       avatar,
@@ -681,6 +662,8 @@ export class UserService {
       throw new NotFoundException("User not found");
     }
 
+    logDebug("User updated successfully: ", updatedUser);
+
     // Check if USER_INCOMPLETE should be upgraded to USER
     if (updatedUser.role === Role.USER_INCOMPLETE) {
       // Check if all mandatory fields are filled
@@ -690,7 +673,7 @@ export class UserService {
       if (hasPublicName && hasCity) {
         // Upgrade to USER
         logInfo("User " + email + " has filled all mandatory fields, upgrading from USER_INCOMPLETE to USER");
-        this.updateUserRole(email, Role.USER);
+        await this.updateUserRole(email, Role.USER);
       }
     }
 
@@ -798,7 +781,7 @@ export class UserService {
     logDebug("Updating user document for ", email, " with query ", updateQuery);
 
     // Note: updateQuery already contains the operators ($set, $inc, ...)
-    const updatedUser = await this.userModel.findOneAndUpdate({ key: emailToKey(email) }, updateQuery, { new: false });
+    const updatedUser = await this.userModel.findOneAndUpdate({ key: emailToKey(email) }, updateQuery, { new: true });
 
     if (!updatedUser) {
       throw new NotFoundException("User not found");

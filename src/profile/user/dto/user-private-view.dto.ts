@@ -52,6 +52,9 @@ export class UserPrivateViewDto {
   @ApiProperty({ description: "Number of missions that can be collected by the user" })
   nbrCollectableMissions: number; // Note: computed from missionsCompleted field
 
+  @ApiPropertyOptional({ description: "User's mentor identifier" })
+  mentor?: string;
+
   @ApiPropertyOptional({ description: "User's unique mentor invitation code for referring friends" })
   mentorInvitationCode?: string;
 

@@ -31,7 +31,7 @@ export class CreateUserDto {
   })
   @IsString()
   @IsOptional()
-  pollingStationId: string;
+  pollingStationId?: string;
 
   @ApiProperty({
     example: "true",
