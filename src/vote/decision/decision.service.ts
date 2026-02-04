@@ -1429,7 +1429,7 @@ export class DecisionService {
         // TODO: make this translatable
         this.chatService.sendAdminAnnouncement( "Un nouveau sujet a été sélectionné pour dimanche prochain: `"+subjectOfTheWeek.text+"`: c'est le moment de faire des propositions.", {
           gotopage: 'vote',
-          gotopageLabel: 'MESSAGING.gotopageLabel_SELECT_PROPOSITIONS',
+          gotopageLabel: 'MESSAGING.GOTOPAGE_LABEL_SELECT_PROPOSITIONS',
           gotopageArgsargs: {
             screen: 'vote-proposition', 
             params: { decisionId: currentDecision._id }
@@ -1658,7 +1658,7 @@ export class DecisionService {
       // TODO: make this translatable
       await this.chatService.sendAdminAnnouncement( "Décision prise sur le sujet `"+currentDecision.subject.text+"`: `"+globalWinningProposition.text+"`. Merci à tous les participants au vote !", {
         gotopage: 'vote',
-        gotopageLabel: 'MESSAGING.gotopageLabel_SEE_DECISION',
+        gotopageLabel: 'MESSAGING.GOTOPAGE_LABEL_SEE_DECISION',
         gotopageArgsargs: {
           screen: 'vote-result',
           params: {
@@ -1818,7 +1818,7 @@ export class DecisionService {
         "`: c'est le moment de faire des propositions.",
       {
         gotopageUrl: "/vote/proposition/" + currentDecision._id,
-        gotopageLabel: "MESSAGING.gotopageLabel_SELECT_PROPOSITIONS",
+        gotopageLabel: "MESSAGING.GOTOPAGE_LABEL_SELECT_PROPOSITIONS",
         doNotNotify: true // Publish in "announcement" but do not send notification about this
       }
     );
@@ -1862,7 +1862,7 @@ export class DecisionService {
       "`" + currentDecision.subject + "`: c'est le moment de voter pour prendre une décision ensemble !",
       {
         gotopageUrl: "/vote/general/" + currentDecision._id,
-        gotopageLabel: "MESSAGING.gotopageLabel_VOTE"
+        gotopageLabel: "MESSAGING.GOTOPAGE_LABEL_VOTE"
       }
     );
 
