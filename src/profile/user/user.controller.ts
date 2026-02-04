@@ -515,7 +515,7 @@ export class UserController {
   })
   @ApiBearerAuth("JWT-auth")
   @UseGuards(RolesGuard)
-  @Roles(Role.VISITOR, Role.USER_INCOMPLETE, Role.USER, Role.MEMBER, Role.ADMIN, Role.MODERATOR)
+  @Roles(Role.USER_INCOMPLETE, Role.ADMIN)
   @ApiOkResponse({
     type: UserPrivateViewDto,
     description: "Returns the updated user with mentor assigned."
