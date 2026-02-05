@@ -5,6 +5,33 @@ import { logDebug, logError, logInfo } from "src/utils/logger";
 import { DeviceTokenDocument, DeviceTokenMongo } from "./device-token.schema";
 import { UserMongo } from "./user.schema";
 
+/**
+ * DeviceTokenService
+ *
+ * Manages Firebase Cloud Messaging (FCM) device tokens through their complete lifecycle.
+ *
+ * NOTIFICATION TOKEN LIFECYCLE:
+ * This service manages the core CRUD operations and lifecycle tracking for notification tokens.
+ * It maintains a reverse index (device_tokens collection) for efficient token lookups and
+ * tracks token validity, success/error history, and invalidation reasons.
+ *
+ * For complete documentation on the notification token lifecycle, see:
+ * docs/NOTIFICATION_TOKEN_LIFECYCLE.md
+ *
+ * Key responsibilities:
+ * - Token registration and updates (upsertToken)
+ * - Token lookup by FCM token or user/device (findByToken, findByUserDevice)
+ * - Token validation status checking
+ * - Success/error tracking for monitoring
+ * - Token invalidation on permanent errors or account removal
+ * - Selective cleanup (preserve device metadata, clear only tokens)
+ *
+ * Architecture:
+ * - Maintains reverse index in device_tokens collection
+ * - Syncs with users.devices.<deviceId>.notifToken field
+ * - Supports efficient lookups by token (O(1) with index)
+ * - Tracks full history: created, updated, last success, last error
+ */
 @Injectable()
 export class DeviceTokenService {
   constructor(

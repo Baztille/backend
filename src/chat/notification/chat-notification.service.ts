@@ -34,6 +34,28 @@ export interface MatrixNotificationPayload {
   prio?: string;
 }
 
+/**
+ * ChatNotificationService
+ *
+ * Handles Matrix Push Gateway API notifications and FCM delivery.
+ *
+ * NOTIFICATION TOKEN LIFECYCLE:
+ * This service is responsible for the "Token Usage" phase of the notification lifecycle.
+ * It processes incoming Matrix notifications, validates tokens, sends FCM notifications,
+ * handles FCM errors, and reports rejected tokens back to Matrix.
+ *
+ * For complete documentation on the notification token lifecycle, see:
+ * docs/NOTIFICATION_TOKEN_LIFECYCLE.md
+ *
+ * Key responsibilities:
+ * - Receive notifications from Matrix Push Gateway
+ * - Pre-validate tokens before sending (skip already invalid)
+ * - Send FCM notifications via FirebaseService
+ * - Classify FCM errors (permanent vs transient)
+ * - Invalidate tokens on permanent errors
+ * - Track success/error history via DeviceTokenService
+ * - Return rejected tokens to Matrix for cleanup
+ */
 @Injectable()
 export class ChatNotificationService {
   constructor(
